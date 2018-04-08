@@ -1,3 +1,6 @@
+//import uuid
+const uuidv4 = require('uuid/v4');
+
 //Azure Bus
 var azure = require('azure');
 var path = 'Endpoint=sb://servicequeues.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=AUNiefT6dHz3ivqbYvpteI+LlwvOWE2M0OleRycSXzs=';
@@ -21,25 +24,28 @@ const queureName = "permission"
 serviceBusService.receiveQueueMessage((queureName + '-recieve'), function (error, receivedMessage) {
     if (!error) {
         // Message received and deleted
-        switch(receivedMessage.type){
+        switch (receivedMessage.type) {
             case "Add_User_Permission":
                 addUserPermission(receivedMessage.payload.userId, receivedMessage.payload.permissionId);
-            break;
+                break;
             case "Get_User_Permissions":
                 getUserPermissions(receivedMessage.payload.userId);
-            break;
+                break;
             case "Remove_User_Permission":
                 removeUserPermission(receivedMessage.payload.userId, receivedMessage.payload.permissionId);
-            break;
+                break;
             case "Add_Group_Permission":
                 addGroupPermission(receivedMessage.payload.groupId, receivedMessage.payload.permissionId);
-            break;
+                break;
             case "Get_Group_Permissions":
                 getGroupPermissions(receivedMessage.payload.groupId);
-            break;
+                break;
             case "Remove_Group_Permission":
                 removeGroupPermission(receivedMessage.payload.groupId, receivedMessage.payload.permissionId)
-            break;
+                break;
+            case "Add_Permission":
+                addPermission(receivedMessage.payload.permissionText);
+                break;
         }
     }
 });
@@ -104,7 +110,15 @@ function removeGroupPermission(groupId) {
     });
 }
 
-
+//adds a permission
+function addPermission(permissionText) {
+    var sql = "INSERT INTO Permission (id, permission) VALUES (?, ?);";
+    var values = [uuidv4, permissionText];
+    
+    conn.query(sql, values, function (err, results, fields) {
+        if (err) throw err;
+    });
+}
 
 //send message
 function send(message) {
@@ -114,7 +128,7 @@ function send(message) {
 
 //loop (request new messages)
 function requestMessage() {
-    asbService.receiveQueueMessage((queureName+'-recieve'), handleMessage);
+    asbService.receiveQueueMessage((queureName + '-recieve'), handleMessage);
 }
 
 function handleMessage(error, receivedMessage) {

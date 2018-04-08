@@ -1,0 +1,23 @@
+{
+  "name": "permission-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "service.js",
+  "scripts": {
+    "start": "node service.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Team-WhiteWolf/group-permission-service.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Team-WhiteWolf/group-permission-service/issues"
+  },
+  "homepage": "https://github.com/Team-WhiteWolf/group-permission-service#readme",
+  "dependencies": {
+    "uuid": "^3.2.1"
+  }
+}
