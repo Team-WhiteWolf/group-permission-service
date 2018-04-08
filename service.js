@@ -21,7 +21,7 @@ const queureName = "permission"
 serviceBusService.receiveQueueMessage((queureName + '-recieve'), function (error, receivedMessage) {
     if (!error) {
         // Message received and deleted
-        switch(receivedMessage.Type){
+        switch(receivedMessage.type){
             case "Add_User_Permission":
                 addUserPermission(receivedMessage.payload.userId, receivedMessage.payload.permissionId);
             break;
@@ -29,16 +29,16 @@ serviceBusService.receiveQueueMessage((queureName + '-recieve'), function (error
                 getUserPermissions(receivedMessage.payload.userId);
             break;
             case "Remove_User_Permission":
-                removeUserPermission(receivedMessage.payload.userId)
+                removeUserPermission(receivedMessage.payload.userId, receivedMessage.payload.permissionId);
             break;
             case "Add_Group_Permission":
-
+                addGroupPermission(receivedMessage.payload.groupId, receivedMessage.payload.permissionId);
             break;
             case "Get_Group_Permissions":
-
+                getGroupPermissions(receivedMessage.payload.groupId);
             break;
             case "Remove_Group_Permission":
-
+                removeGroupPermission(receivedMessage.payload.groupId, receivedMessage.payload.permissionId)
             break;
         }
     }
