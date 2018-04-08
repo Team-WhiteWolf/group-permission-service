@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Team-WhiteWolf/group-permission-service#readme",
   "dependencies": {
+    "mysql2": "^1.5.3",
     "uuid": "^3.2.1"
   }
 }
